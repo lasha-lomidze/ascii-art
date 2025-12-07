@@ -21,7 +21,8 @@ std::unordered_map<std::string, int> size_pixels = {
 
 int main()
 {
-    cv::Mat img = create_grayscale_image("examples/puppy.jpg");
+    // cv::Mat img = create_grayscale_image("examples/dady.jpg");
+    cv::Mat img = create_image("examples/qevxo.png");
     if (img.empty())
     {
         std::cerr << "Failed to load image\n";
@@ -30,9 +31,35 @@ int main()
 
     DEFAULT = img.cols;
 
-    img = resized(img, 150);
-    draw_in_new_file(img);
+    img = resized(img, 400);
+
+    // draw_in_new_file(img);
     draw_in_terminal(img);
 
     return 0;
 }
+
+// choose colored,
+// choose drawign mode
+// choose where to draw
+// performance benchmark
+// choose edge detection toggle
+
+// ^ warn user about use of ide if he tries to run from it, but give him the chance
+
+// maybe add grayscale_to_ansii so that i can do it in one color
+
+// ! how about transparent images
+
+// & Modes to add:
+// * Grayscale ASCII (already have)
+// ^ Color ASCII (truecolor / 256-color terminal)
+// * Block-characters mode (▀ ▄ █ ▌▐ etc → looks much sharper)
+// Edge-detection mode (ASCII outlines via Sobel filter)
+// open in termina/txt-file/browser/window/image/window_terminal
+// & Add (other):
+// “fast mode” (nearest neighbor)
+// “HQ mode” (bilinear / bicubic resize)
+// performance benchmark printed at the end
+// CLI
+// ^ non disorted ( resize the image )

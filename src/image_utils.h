@@ -7,4 +7,3 @@ cv::Mat create_grayscale_image(const std::string &image_path);
 cv::Mat resized(const cv::Mat &img, int width);
 cv::Mat resized(const cv::Mat &img, const std::string &size_name);
 int get_pixels_size(const std::string &size_name);
-

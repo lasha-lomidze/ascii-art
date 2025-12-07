@@ -10,4 +10,4 @@ Convert images into ASCII art in your terminal using C++ and OpenCV.
 
 ## Quick Start
 Build and run:
-```make run
+```make run```
