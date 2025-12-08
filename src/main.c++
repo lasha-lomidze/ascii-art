@@ -31,10 +31,11 @@ int main()
 
     DEFAULT = img.cols;
 
-    img = resized(img, 400);
+    img = resized(img, 250);
 
     // draw_in_new_file(img);
-    draw_in_terminal(img);
+    // draw_in_terminal(img);
+    draw_in_terminal_vivid(img);
 
     return 0;
 }
@@ -53,7 +54,8 @@ int main()
 
 // & Modes to add:
 // * Grayscale ASCII (already have)
-// ^ Color ASCII (truecolor / 256-color terminal)
+// ^ Color ASCII
+// ^ Color ASCII bg
 // * Block-characters mode (▀ ▄ █ ▌▐ etc → looks much sharper)
 // Edge-detection mode (ASCII outlines via Sobel filter)
 // open in termina/txt-file/browser/window/image/window_terminal

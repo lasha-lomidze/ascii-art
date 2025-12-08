@@ -18,7 +18,7 @@ char grayscale_to_ascii(unsigned char pixel)
 char rgb_to_ascii(int R, int G, int B)
 {
     int value = std::max({R, G, B});
-    const char *ascii = "@%#*+=-:. ";
+    const char *ascii = " .:-=+*#%@";
     int index = value * 9 / 255;
     return ascii[index];
 }
@@ -56,6 +56,8 @@ const char *grayscale_to_block(unsigned char pixel, Style style)
     int index = pixel * (n - 1) / 255;
     return ref[index];
 }
+
+
 
 int rgb_to_ansi256(int R, int G, int B)
 {
@@ -111,41 +113,55 @@ void draw_in_new_file(cv::Mat img, const std::string &filename)
 // take in mode as second argument, style(maybe) as third, add colored: boolean,
 void draw_in_terminal(cv::Mat img)
 {
+    if (img.empty())
+    {
+        std::cerr << "Image is empty!" << std::endl;
+        return;
+    }
+
     bool is_grayscale = img.channels() == 1;
+    std::string art = "";
+    size_t total_chars_needed = 0;
 
     if (is_grayscale)
     {
+        total_chars_needed = (static_cast<size_t>(img.rows) * img.cols) + img.rows;
+        art.reserve(total_chars_needed);
+
         for (int y = 0; y < img.rows; y++)
         {
             for (int x = 0; x < img.cols; x++)
             {
                 uchar pixel = img.at<uchar>(y, x);
-                std::cout << grayscale_to_ascii(pixel);
-                // std::cout << grayscale_to_block(pixel);
+                art += grayscale_to_ascii(pixel);
             }
-            std::cout << std::endl;
+            art += '\n';
         }
-        return;
     }
-
-    if (img.empty() || img.channels() != 3)
+    else if (img.channels() == 3)
     {
-        std::cerr << "Image is empty or not a colored image!" << std::endl;
-        return;
-    }
+        const size_t ANSI_CHAR_ESTIMATE = 22;
+        total_chars_needed = (static_cast<size_t>(img.rows) * img.cols * ANSI_CHAR_ESTIMATE) + img.rows;
+        art.reserve(total_chars_needed);
 
-    for (int y = 0; y < img.rows; ++y)
-    {
-        for (int x = 0; x < img.cols; ++x)
+        for (int y = 0; y < img.rows; ++y)
         {
-            cv::Vec3b pixel = img.at<cv::Vec3b>(y, x);
-
-            unsigned char blue = pixel[0];
-            unsigned char green = pixel[1];
-            unsigned char red = pixel[2];
-
-            std::cout << rgb_to_colored_ascii(red, green, blue);
+            for (int x = 0; x < img.cols; ++x)
+            {
+                cv::Vec3b pixel = img.at<cv::Vec3b>(y, x);
+                unsigned char blue = pixel[0];
+                unsigned char green = pixel[1];
+                unsigned char red = pixel[2];
+                art += rgb_to_colored_ascii(red, green, blue);
+            }
+            art += '\n';
         }
-        std::cout << std::endl;
     }
+    else
+    {
+        std::cerr << "Unsupported image format (channels: " << img.channels() << ")!" << std::endl;
+        return;
+    }
+
+    std::cout << art;
 }
