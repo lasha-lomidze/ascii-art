@@ -1,5 +1,7 @@
 # ASCII Art CLI
 
+(UNFINISHED)
+
 Convert images into ASCII art in your terminal using C++ and OpenCV.
 
 ## Features
